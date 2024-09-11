@@ -11,16 +11,29 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 load_dotenv(verbose=True)
 
-endpoint = os.getenv("AZURE_COMPUTER_VISION_ENDPOINT")
-key = os.getenv("AZURE_COMPUTER_VISION_KEY")
+cvEndpointList = [
+    {"cvEndpoint": os.getenv("AZURE_COMPUTER_VISION_ENDPOINT1"), "cvEndpointKey": os.getenv("AZURE_COMPUTER_VISION_KEY1")},
+    {"cvEndpoint": os.getenv("AZURE_COMPUTER_VISION_ENDPOINT2"), "cvEndpointKey": os.getenv("AZURE_COMPUTER_VISION_KEY2")},
+    {"cvEndpoint": os.getenv("AZURE_COMPUTER_VISION_ENDPOINT3"), "cvEndpointKey": os.getenv("AZURE_COMPUTER_VISION_KEY3")}
+]
+
+# 当前使用的索引，初始为0
+endpoint_index = 0
+endpoint_lock = asyncio.Lock()  # 用于保护 endpoint_index 的锁
 
 async def get_picture_embedding(image_file_url:str) ->  List[float]:
     logging.info(f"Getting picture embedding for {image_file_url}")
 
-    url = endpoint + "computervision/retrieval:vectorizeImage?api-version=2024-02-01&model-version=2023-04-15"
+    global endpoint_index
+    async with endpoint_lock:
+        # 选择当前的 cvEndpoint 和 cvEndpointKey（负载均衡）
+        cv_endpoint = cvEndpointList[endpoint_index]
+        endpoint_index = (endpoint_index + 1) % len(cvEndpointList)  # 轮询下一个端点
+
+    url = cv_endpoint['cvEndpoint'] + "computervision/retrieval:vectorizeImage?api-version=2024-02-01&model-version=2023-04-15"
     headers = {
         "Content-Type": "application/json",
-        "Ocp-Apim-Subscription-Key": key
+        "Ocp-Apim-Subscription-Key": cv_endpoint['cvEndpointKey']
     }
     body = {
         "url": image_file_url
@@ -40,11 +53,18 @@ async def get_picture_embedding(image_file_url:str) ->  List[float]:
 async def get_text_embedding_by_computer_vision(text:str)->  List[float]:
     logging.info(f"Getting text embedding for {text}")
     
-    url = endpoint + "computervision/retrieval:vectorizeText?api-version=2024-02-01&model-version=2023-04-15"
+    global endpoint_index
+    async with endpoint_lock:
+        # 选择当前的 cvEndpoint 和 cvEndpointKey（负载均衡）
+        cv_endpoint = cvEndpointList[endpoint_index]
+        endpoint_index = (endpoint_index + 1) % len(cvEndpointList)  # 轮询下一个端点
+
+    url = cv_endpoint['cvEndpoint'] + "computervision/retrieval:vectorizeText?api-version=2024-02-01&model-version=2023-04-15"
     headers = {
         "Content-Type": "application/json",
-        "Ocp-Apim-Subscription-Key": key
+        "Ocp-Apim-Subscription-Key": cv_endpoint['cvEndpointKey']
     }
+
     body = {
         "text": text
     }

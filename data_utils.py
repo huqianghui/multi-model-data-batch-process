@@ -7,8 +7,13 @@ from objectDefinition import Document, ImageData, RecordResult
 from pictureFormatProcess import download_and_save_as_pdf
 from pictureOcrProcess import analyze_document, get_image_caption_byCV
 from textEmbeddingProcess import get_text_embedding
+from dotenv import load_dotenv
+import os
 
-pdf_dir = "docs/pdf"
+# 加载 .env 文件中的环境变量
+load_dotenv()
+
+pdf_dir = os.getenv("pdf_dir")
 
 async def process_images_records(file_path: str)->RecordResult:
     

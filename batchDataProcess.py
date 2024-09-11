@@ -18,4 +18,4 @@ def process_multiple_files(directory, max_workers):
 # Example usage
 if __name__ == "__main__":
     directory = os.getenv("temp_dir")
-    process_multiple_files(directory, max_workers=os.cpu_count())
+    process_multiple_files(directory, max_workers=16)

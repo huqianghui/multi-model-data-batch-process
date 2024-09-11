@@ -1,0 +1,14 @@
+1.  azure openAI gpt-4o
+
+    Tokens per Minute Rate Limit (thousands) : 450
+    Rate limit (Requests per minute) 4500
+
+2. embedding 
+    Tokens per Minute Rate Limit (thousands) 210
+    Rate limit (Requests per minute) 1260
+
+3. computer vision
+    S1 Standard  10 Calls per second
+
+4. Document intelligence
+   (1 Call per minute for training API)

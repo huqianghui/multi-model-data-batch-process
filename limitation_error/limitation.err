@@ -1,0 +1,14 @@
+1. computer vision limitation error:
+2024-09-10 12:29:05,449 - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-800' coro=<get_picture_embedding() done, defined at /home/azureuser/multi-model-data-batch-process/multiModelsEmbedding.py:17> exception=Exception('Error getting picture embedding: 429 - {"error":{"code":"429","message": "Requests to the VectorizeImage Operation under Computer Vision APIs (2024-02-01) have exceeded call rate limit of your current ComputerVision S1 pricing tier. Please retry after 1 second. Please contact Azure support service if you would like to further increase the default rate limit."}}')>
+Traceback (most recent call last):
+  File "/home/azureuser/multi-model-data-batch-process/multiModelsEmbedding.py", line 37, in get_picture_embedding
+    raise Exception(f"Error getting picture embedding: {response.status} - {error_text}")
+Exception: Error getting picture embedding: 429 - {"error":{"code":"429","message": "Requests to the VectorizeImage Operation under Computer Vision APIs (2024-02-01) have exceeded call rate limit of your current ComputerVision S1 pricing tier. Please retry after 1 second. Please contact Azure support service if you would like to further increase the default rate limit."}}
+
+2. gpt-4o error:
+
+2024-09-10 13:05:21,599 - INFO - HTTP Request: POST https://openai-hu-non-product-test.openai.azure.com//openai/deployments/gpt-4o/chat/completions?api-version=2024-02-15-preview "HTTP/1.1 429 Too Many Requests"
+2024-09-10 13:05:21,600 - INFO - Retrying request to /chat/completions in 40.000000 seconds
+2024-09-10 13:05:21,640 - INFO - HTTP Request: GET https://img2.tapimg.com/moment/etag/FkSQM2AhQKR9BNbPLbDEStC_TUFA.jpg "HTTP/1.1 200 OK"
+2024-09-10 13:05:21,673 - INFO - Response status: 200

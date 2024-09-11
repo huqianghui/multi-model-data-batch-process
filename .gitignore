@@ -12,6 +12,14 @@ __pycache__/
 # Distribution / packaging
 .Python
 build/
+docs/
+docs/pdf/
+docs/pdf/img_files/
+docs/pdf/img_files_1/
+docs/pdf/img_files_new/
+temp/
+*.out
+*.pdf
 develop-eggs/
 dist/
 downloads/
