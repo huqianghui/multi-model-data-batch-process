@@ -47,8 +47,8 @@ from dotenv import load_dotenv
 
 load_dotenv(verbose=True)
 
-azure_computer_vision_endpoint = "https://cv-hu-test-westus.cognitiveservices.azure.com/"
-azure_computer_vision_key = "76fd3ae5ca8346dfa266636d8afc5478"
+azure_computer_vision_endpoint = "https://XXX.cognitiveservices.azure.com/"
+azure_computer_vision_key = "XXXX"
 
 def get_text_embedding_by_computer_vision(text: str) -> List[float]:
     logging.info(f"Getting text embedding for {text}")
